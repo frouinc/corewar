@@ -1,5 +1,5 @@
-.name "zork"
-.comment "just a basic living prog"
+.name "bwork"
+.comment "just a basic bworking prog"
 
 l2:	sti	r1,%:live,%1
 	ld %0, r2

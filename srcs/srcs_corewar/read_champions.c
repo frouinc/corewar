@@ -6,7 +6,7 @@
 /*   By: cyrillef <cyrillef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/24 15:34:50 by cyrillef          #+#    #+#             */
-/*   Updated: 2018/04/20 19:43:36 by cfrouin          ###   ########.fr       */
+/*   Updated: 2018/04/30 08:52:47 by cyrillefrouin    ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,17 +27,17 @@ static int			read_file(t_data *data, int fd, t_champion *champion)
 	ft_strcpy(champion->comment, tmp.comment);
 	index = 0;
 	bzero(buff, 1);
-	bzero(champion->code, 1024);
+	bzero(champion->code, MEM_SIZE);
 	while (read(fd, buff, 1) > 0)
 	{
 		bzero(tmp_hex, 3);
 		number_to_hex_str(buff[0], &tmp_hex);
 		tmp_hex[2] = ' ';
 		ft_strncpy((char *)&champion->code[index], (char*)tmp_hex, 3);
-		index += 3;
+		if ((index += 3) >= MEM_SIZE)
+			corewar_error(data, "Champion is too big.\n");
 		bzero(buff, 1);
 	}
-	champion->size = ft_strlen((char*)champion->code) / 3;
 	return (1);
 }
 
@@ -53,6 +53,7 @@ static int			read_champion(t_data *data, t_champion *champion)
 	while (i < REG_NUMBER + 1)
 		champion->reg[i++] = 0;
 	read_file(data, fd, champion);
+	champion->size = ft_strlen((char*)champion->code) / 3;
 	if (champion->size > CHAMP_MAX_SIZE)
 	{
 		if (champion->prev == NULL)
