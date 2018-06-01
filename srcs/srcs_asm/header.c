@@ -6,7 +6,7 @@
 /*   By: kda-silv <kda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/31 14:59:41 by kda-silv          #+#    #+#             */
-/*   Updated: 2018/04/21 12:14:58 by kda-silv         ###   ########.fr       */
+/*   Updated: 2018/06/01 16:15:53 by kda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void			header(char *line, t_data *data)
 		fill_header(line, NAME_CMD_STRING, data->header.prog_name, data);
 		data->name = 1;
 	}
-	if (ft_strstr(line, COMMENT_CMD_STRING))
+	else if (ft_strstr(line, COMMENT_CMD_STRING))
 	{
 		if (data->comment == 1)
 		{
@@ -84,4 +84,6 @@ void			header(char *line, t_data *data)
 		fill_header(line, COMMENT_CMD_STRING, data->header.comment, data);
 		data->comment = 1;
 	}
+	else
+		asm_error("Need name and comment first", 2, data, line);
 }

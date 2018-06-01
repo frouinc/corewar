@@ -6,7 +6,7 @@
 /*   By: kda-silv <kda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/09 17:32:43 by kda-silv          #+#    #+#             */
-/*   Updated: 2018/04/20 21:09:26 by cfrouin          ###   ########.fr       */
+/*   Updated: 2018/06/01 21:34:54 by kda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ static void			do_param(t_data *data, int line, int word)
 
 	count = -1;
 	while (data->tab[line][word][++count] != '\0')
+	{
 		if (count == 0 || data->tab[line][word][count - 1] == SEPARATOR_CHAR)
 		{
 			tmp = ft_atoi(data->tab[line][word] + count + 1);
@@ -84,6 +85,10 @@ static void			do_param(t_data *data, int line, int word)
 			else
 				write_2octet(data, line, word, count);
 		}
+	}
+	/*
+	** segfault sur retour de fonction ?????
+	*/
 }
 
 void				do_function(t_data *data, int line)

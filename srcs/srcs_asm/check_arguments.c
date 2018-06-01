@@ -6,7 +6,7 @@
 /*   By: kda-silv <kda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/09 16:27:25 by kda-silv          #+#    #+#             */
-/*   Updated: 2018/04/21 12:14:12 by kda-silv         ###   ########.fr       */
+/*   Updated: 2018/06/01 17:32:54 by kda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ static int		registre(char **tab, int count_word, t_data *data, int count)
 		&& tab[count_word][count] <= '9')
 		++count;
 	if (tab[count_word][count] != '\0'
-		&& tab[count_word][count] != SEPARATOR_CHAR)
+		&& tab[count_word][count] != SEPARATOR_CHAR
+		&& tab[count_word][count] != COMMENT_CHAR)
 		asm_error("Bad Registre", 2, data, data->line);
 	if (tab[count_word][count] == SEPARATOR_CHAR)
 		++count;
@@ -43,13 +44,16 @@ static int		registre(char **tab, int count_word, t_data *data, int count)
 
 static int		direct(char **tab, int count_word, t_data *data, int count)
 {
+	if (tab[count_word][count] == '\0')
+		asm_error("Bad DIRECT Argument", 2, data, data->line);
 	if (tab[count_word][count] == LABEL_CHAR)
 	{
 		if (check_label(tab, count_word, ++count, 1) == -1)
 			asm_error("Bad Label", 2, data, data->line);
 		while (tab[count_word][count] != '\0'
-			&& tab[count_word][count] != SEPARATOR_CHAR)
-			++count;
+			&& tab[count_word][count] != SEPARATOR_CHAR
+			&& tab[count_word][count] != COMMENT_CHAR)
+				++count;
 	}
 	else
 	{
@@ -57,12 +61,13 @@ static int		direct(char **tab, int count_word, t_data *data, int count)
 			++count;
 		--count;
 		while (tab[count_word][++count] != '\0'
-			&& tab[count_word][count] != SEPARATOR_CHAR)
-			if (tab[count_word][count] < '0'
-				&& tab[count_word][count] > '9')
-				asm_error("Bad DIRECT Argument", 2, data, data->line);
+			&& tab[count_word][count] != SEPARATOR_CHAR
+			&& tab[count_word][count] != COMMENT_CHAR)
+				if (tab[count_word][count] < '0'
+					|| tab[count_word][count] > '9')
+					asm_error("Bad DIRECT Argument", 2, data, data->line);
 	}
-	if (tab[count_word][count] != '\0')
+	if (tab[count_word][count] != '\0' && tab[count_word][count] != COMMENT_CHAR)
 		++count;
 	count_arg(data, DIR);
 	return (count);
@@ -75,16 +80,18 @@ static int		indirect(char **tab, int count_word, t_data *data, int count)
 		if (check_label(tab, count_word, ++count, 1) == -1)
 			asm_error("Bad Label", 2, data, data->line);
 		while (tab[count_word][count] != '\0'
-			&& tab[count_word][count] != SEPARATOR_CHAR)
+			&& tab[count_word][count] != SEPARATOR_CHAR
+			&& tab[count_word][count] != COMMENT_CHAR)
 			++count;
 	}
 	else
 		while (tab[count_word][++count] != '\0'
-			&& tab[count_word][count] != SEPARATOR_CHAR)
+			&& tab[count_word][count] != SEPARATOR_CHAR
+			&& tab[count_word][count] != COMMENT_CHAR)
 			if (!(tab[count_word][count] >= '0'
 				&& tab[count_word][count] <= '9'))
 				asm_error("Bad INDIRECT Argument", 2, data, data->line);
-	if (tab[count_word][count] != '\0')
+	if (tab[count_word][count] != '\0' && tab[count_word][count] != COMMENT_CHAR)
 		++count;
 	count_arg(data, INDIR);
 	return (count);
@@ -95,7 +102,8 @@ void			check_args(char **tab, int count_word, t_data *data, char *line)
 	int			count;
 
 	count = 0;
-	while (tab[count_word][count] != '\0')
+	while (tab[count_word][count] != '\0'
+		&& tab[count_word][count] != COMMENT_CHAR)
 	{
 		if (tab[count_word][count] == 'r')
 			count = registre(tab, count_word, data, (count + 1));
@@ -110,6 +118,8 @@ void			check_args(char **tab, int count_word, t_data *data, char *line)
 			|| (tab[count_word][count] >= '0' && tab[count_word][count] <= '9'))
 			count = indirect(tab, count_word, data, count);
 	}
+	if (tab[count_word][count - 1] == SEPARATOR_CHAR)
+		asm_error("Bad End Line", 2, data, data->line);
 	if (tab[count_word + 1] != NULL && tab[count_word + 1][0] != COMMENT_CHAR)
 		asm_error("One Instruction By Line", 2, data, line);
 }

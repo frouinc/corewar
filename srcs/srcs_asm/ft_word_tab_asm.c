@@ -6,7 +6,7 @@
 /*   By: kda-silv <kda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/26 13:29:15 by kda-silv          #+#    #+#             */
-/*   Updated: 2018/04/20 22:25:02 by kda-silv         ###   ########.fr       */
+/*   Updated: 2018/06/01 19:38:55 by kda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ static char		**copy_word(char *str, char **tab, int count, int count_tab)
 	tmp = count - 1;
 	len = 0;
 	while (str[++tmp] != '\0' && str[tmp] != ' ' && str[tmp] != '\t')
+		if (str[tmp] != '@')
 		++len;
 	if ((tab[count_tab] = malloc((len + 1) * sizeof(char))) == NULL)
 		return (NULL);

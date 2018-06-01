@@ -1,6 +1,7 @@
 .name "bwork"
 .comment "just a basic bworking prog"
 
+fork %:live
 l2:	sti	r1,%:live,%1
 	ld %0, r2
 	ld %4, r3

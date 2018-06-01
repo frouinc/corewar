@@ -6,7 +6,7 @@
 /*   By: kda-silv <kda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/17 18:03:07 by kda-silv          #+#    #+#             */
-/*   Updated: 2018/04/17 18:03:28 by kda-silv         ###   ########.fr       */
+/*   Updated: 2018/06/01 19:25:32 by kda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ void				type_param(t_data *data, int line, int word)
 	len = 0;
 	type = 0;
 	while (data->tab[line][word][++count] != '\0')
-	{
 		if (count == 0 || data->tab[line][word][count - 1] == SEPARATOR_CHAR)
 		{
 			if (data->tab[line][word][count] == 'r')
@@ -44,7 +43,6 @@ void				type_param(t_data *data, int line, int word)
 			type = type << 2;
 			++len;
 		}
-	}
 	type = fill_blank(len, type);
 	write(data->fd, &type, 1);
 }

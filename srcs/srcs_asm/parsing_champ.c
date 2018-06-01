@@ -6,7 +6,7 @@
 /*   By: kda-silv <kda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/29 15:53:06 by kda-silv          #+#    #+#             */
-/*   Updated: 2018/04/20 22:41:46 by kda-silv         ###   ########.fr       */
+/*   Updated: 2018/06/01 22:27:03 by kda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,9 @@
 static void		char_size(t_data *data, char *str, int line, int count)
 {
 	int			len;
-	char		*str_line;
 
+	if (str[count] < '0' || str[count] > '9')
+		return ;
 	len = 0;
 	while (str[count] != '\0' && str[count] != SEPARATOR_CHAR)
 	{
@@ -24,14 +25,19 @@ static void		char_size(t_data *data, char *str, int line, int count)
 			++len;
 		++count;
 	}
-	if (len > 10)
+	if (len > 9)
 	{
 		ft_putstr_fd(RED, 2);
-		ft_putstr_fd("Syntaxe error[L", 2);
-		str_line = ft_itoa(line);
-		ft_putstr_fd(str_line, 2);
-		free(str_line);
-		asm_error("]: NBR too long (10 char max)", 1, data, NULL);
+		ft_putstr_fd("Syntaxe error: NBR too long (10 char max)\nline: ", 2);
+		ft_putstr_fd(data->tab[line][0], 2);
+		ft_putstr_fd(" ", 2);
+		ft_putstr_fd(data->tab[line][1], 2);
+		if (data->tab[line][2] != NULL)
+		{
+			ft_putstr_fd(" ", 2);
+			ft_putstr_fd(data->tab[line][2], 2);
+		}
+		asm_error(NULL, 1, data, NULL);
 	}
 }
 
@@ -45,12 +51,15 @@ static void		check_size_nbr(t_data *data, int line, int word, int count)
 			word = 2;
 		else
 			word = 1;
+		count = -1;
 		while (data->tab[line][word][++count] != '\0')
 		{
 			if (data->tab[line][word][count] == DIRECT_CHAR
 				&& data->tab[line][word][count + 1] != LABEL_CHAR)
 				char_size(data, data->tab[line][word], line, count + 1);
-			if (data->tab[line][word][count] == 'r')
+			if (data->tab[line][word][count] == 'r'
+				&& (data->tab[line][word][count + 1] >= '0'
+				&& data->tab[line][word][count + 1] <= '9'))
 				char_size(data, data->tab[line][word], line, count + 1);
 			if (data->tab[line][word][count] == '-'
 				|| (data->tab[line][word][count] >= '0'

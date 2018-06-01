@@ -6,7 +6,7 @@
 /*   By: cyrillef <cyrillef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/13 15:19:53 by cyrillef          #+#    #+#             */
-/*   Updated: 2018/04/21 11:08:01 by kda-silv         ###   ########.fr       */
+/*   Updated: 2018/06/01 22:20:25 by kda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,20 @@ int				main(int ac, char **av)
 	parsing_champ(data.fd, &data, 0, NULL);
 	close(data.fd);
 	do_cor(&data, av[1]);
+	int		count;
+	int		count2;
+
+	count = -1;
+	while (data.tab[++count] != NULL)
+	{
+		count2 = -1;
+		while (data.tab[count][++count2] != NULL)
+		{
+			ft_putstr(data.tab[count][count2]);
+			ft_putchar(' ');
+		}
+		ft_putchar('\n');
+	}
 	ft_putstr_fd(GREEN, 1);
 	ft_putstr_fd(data.file_cor, 1);
 	ft_putstr_fd(" has been created !\n", 1);

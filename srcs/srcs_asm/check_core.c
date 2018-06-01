@@ -6,7 +6,7 @@
 /*   By: kda-silv <kda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/26 17:50:26 by kda-silv          #+#    #+#             */
-/*   Updated: 2018/04/20 22:25:27 by kda-silv         ###   ########.fr       */
+/*   Updated: 2018/06/01 15:49:48 by kda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int				check_label(char **tab, int count_word, int count, int mode)
 	int			flag;
 	int			count2;
 
-	if (mode == 0 && count_word != 0)
+	if ((mode == 0 && count_word != 0) || tab[count_word][count] == '\0')
 		return (-1);
 	tmp = LABEL_CHARS;
 	while (tab[count_word][count] != '\0'
