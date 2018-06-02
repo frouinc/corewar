@@ -6,7 +6,7 @@
 #    By: cyrillef <cyrillef@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/04/05 15:49:50 by cyrillef          #+#    #+#              #
-#    Updated: 2018/04/22 16:59:24 by dwald            ###   ########.fr        #
+#    Updated: 2018/06/02 15:37:21 by kda-silv         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,7 +50,8 @@ SRCS_ASM			=	main.c \
 						do_cor.c \
 						do_function.c \
 						type_param.c \
-						write_label.c
+						write_label.c \
+						bad_direct_arg.c
 
 SRCS_ASM_FULL		=	$(addprefix $(SRCS_ASM_DIR), $(SRCS_ASM))
 

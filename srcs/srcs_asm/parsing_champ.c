@@ -6,7 +6,7 @@
 /*   By: kda-silv <kda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/29 15:53:06 by kda-silv          #+#    #+#             */
-/*   Updated: 2018/06/01 22:27:03 by kda-silv         ###   ########.fr       */
+/*   Updated: 2018/06/02 15:41:22 by kda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static void		char_size(t_data *data, char *str, int line, int count)
 	if (len > 9)
 	{
 		ft_putstr_fd(RED, 2);
-		ft_putstr_fd("Syntaxe error: NBR too long (10 char max)\nline: ", 2);
+		ft_putstr_fd("Syntaxe error: NBR too long (9 char max)\nline: ", 2);
 		ft_putstr_fd(data->tab[line][0], 2);
 		ft_putstr_fd(" ", 2);
 		ft_putstr_fd(data->tab[line][1], 2);
@@ -51,7 +51,6 @@ static void		check_size_nbr(t_data *data, int line, int word, int count)
 			word = 2;
 		else
 			word = 1;
-		count = -1;
 		while (data->tab[line][word][++count] != '\0')
 		{
 			if (data->tab[line][word][count] == DIRECT_CHAR
@@ -103,7 +102,7 @@ void			parsing_champ(int fd, t_data *data, int error, char *line)
 			asm_error("Error gnl", 1, data, NULL);
 		data->line = line;
 		++data->nbr_line;
-		if (line[0] != COMMENT_CHAR)
+		if (line[0] != COMMENT_CHAR && line[0] != '\0')
 		{
 			if (data->name != 1 || data->comment != 1)
 				header(line, data);

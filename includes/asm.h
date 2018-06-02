@@ -6,7 +6,7 @@
 /*   By: cyrillef <cyrillef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/22 12:31:04 by cyrillef          #+#    #+#             */
-/*   Updated: 2018/05/30 12:09:18 by kda-silv         ###   ########.fr       */
+/*   Updated: 2018/06/02 15:42:22 by kda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,12 @@ void				type_param(t_data *data, int line, int word);
 */
 char				*name_label(t_data *data, int line, int word, int count);
 int					write_label(t_data *data, int line, int word, int count);
+
+/*
+** bad_direct_arg
+*/
+int					bad_direct_arg(t_data *data, char **tab, int count
+						, int count_word);
 
 /*
 ** error.c

@@ -6,7 +6,7 @@
 /*   By: kda-silv <kda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/09 16:27:25 by kda-silv          #+#    #+#             */
-/*   Updated: 2018/06/01 17:32:54 by kda-silv         ###   ########.fr       */
+/*   Updated: 2018/06/02 15:37:02 by kda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,21 +53,16 @@ static int		direct(char **tab, int count_word, t_data *data, int count)
 		while (tab[count_word][count] != '\0'
 			&& tab[count_word][count] != SEPARATOR_CHAR
 			&& tab[count_word][count] != COMMENT_CHAR)
-				++count;
+			++count;
 	}
 	else
 	{
 		if (tab[count_word][count] == '-')
 			++count;
-		--count;
-		while (tab[count_word][++count] != '\0'
-			&& tab[count_word][count] != SEPARATOR_CHAR
-			&& tab[count_word][count] != COMMENT_CHAR)
-				if (tab[count_word][count] < '0'
-					|| tab[count_word][count] > '9')
-					asm_error("Bad DIRECT Argument", 2, data, data->line);
+		count = bad_direct_arg(data, tab, count, count_word);
 	}
-	if (tab[count_word][count] != '\0' && tab[count_word][count] != COMMENT_CHAR)
+	if (tab[count_word][count] != '\0'
+		&& tab[count_word][count] != COMMENT_CHAR)
 		++count;
 	count_arg(data, DIR);
 	return (count);
@@ -91,7 +86,8 @@ static int		indirect(char **tab, int count_word, t_data *data, int count)
 			if (!(tab[count_word][count] >= '0'
 				&& tab[count_word][count] <= '9'))
 				asm_error("Bad INDIRECT Argument", 2, data, data->line);
-	if (tab[count_word][count] != '\0' && tab[count_word][count] != COMMENT_CHAR)
+	if (tab[count_word][count] != '\0'
+		&& tab[count_word][count] != COMMENT_CHAR)
 		++count;
 	count_arg(data, INDIR);
 	return (count);
