@@ -6,7 +6,7 @@
 /*   By: cyrillef <cyrillef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/22 12:31:04 by cyrillef          #+#    #+#             */
-/*   Updated: 2018/06/02 15:42:22 by kda-silv         ###   ########.fr       */
+/*   Updated: 2018/06/02 17:13:27 by kda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ typedef	struct		s_data
 /*
 ** parsing_champ.c
 */
-void				parsing_champ(int fd, t_data *data, int error, char *line);
+void				parsing_champ(t_data *data, int error, char *line);
 
 /*
 ** header.c

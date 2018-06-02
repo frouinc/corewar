@@ -6,7 +6,7 @@
 /*   By: kda-silv <kda-silv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/29 15:53:06 by kda-silv          #+#    #+#             */
-/*   Updated: 2018/06/02 15:41:22 by kda-silv         ###   ########.fr       */
+/*   Updated: 2018/06/02 17:38:14 by kda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,11 +92,11 @@ static void		last_check(t_data *data)
 	take_prog_size(data);
 }
 
-void			parsing_champ(int fd, t_data *data, int error, char *line)
+void			parsing_champ(t_data *data, int error, char *line)
 {
 	if (REG_NUMBER > 255)
 		asm_error("Error REG_NUMBER > 255", 1, data, NULL);
-	while ((error = get_next_line(fd, &line)))
+	while ((error = get_next_line(data->fd, &line)))
 	{
 		if (error == -1)
 			asm_error("Error gnl", 1, data, NULL);

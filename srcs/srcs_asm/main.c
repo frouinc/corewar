@@ -6,22 +6,19 @@
 /*   By: cyrillef <cyrillef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/13 15:19:53 by cyrillef          #+#    #+#             */
-/*   Updated: 2018/06/02 14:50:18 by kda-silv         ###   ########.fr       */
+/*   Updated: 2018/06/02 17:43:47 by kda-silv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm.h"
 
-static int		check_file(t_data *data, char **av)
+static void		check_file(t_data *data, char **av, int count)
 {
-	int			fd;
-
-	if (av[1][ft_strlen(av[1]) - 1] != 's'
-		|| av[1][ft_strlen(av[1]) - 2] != '.')
+	if (av[count][ft_strlen(av[count]) - 1] != 's'
+		|| av[count][ft_strlen(av[count]) - 2] != '.')
 		asm_error("usage: ./asm \"file_name.s\"", 1, data, NULL);
-	if ((fd = open(av[1], O_RDONLY)) == -1)
+	if ((data->fd = open(av[count], O_RDONLY)) == -1)
 		asm_error("usage: ./asm \"file_name.s\"", 1, data, NULL);
-	return (fd);
 }
 
 static void		delete_data(t_data data)
@@ -41,10 +38,8 @@ static void		delete_data(t_data data)
 		ft_word_tab_free(data.labels);
 }
 
-int				main(int ac, char **av)
+static t_data	init_data(t_data data)
 {
-	t_data		data;
-
 	data.header.magic = COREWAR_EXEC_MAGIC;
 	data.name = 0;
 	data.comment = 0;
@@ -52,17 +47,31 @@ int				main(int ac, char **av)
 	data.labels = NULL;
 	data.nbr_line = 0;
 	data.check_cmd = 0;
-	if (ac != 2)
-		asm_error("usage: ./asm \"file_name.s\"", 1, &data, NULL);
 	data.fd = -1;
-	data.fd = check_file(&data, av);
-	parsing_champ(data.fd, &data, 0, NULL);
-	close(data.fd);
-	do_cor(&data, av[1]);
-	ft_putstr_fd(GREEN, 1);
-	ft_putstr_fd(data.file_cor, 1);
-	ft_putstr_fd(" has been created !\n", 1);
-	ft_putstr_fd(RESET, 1);
-	delete_data(data);
+	return (data);
+}
+
+int				main(int ac, char **av)
+{
+	t_data		data;
+	int			count;
+
+	if (ac < 2)
+		asm_error("usage: ./asm \"file_name.s\"", 1, &data, NULL);
+	count = 0;
+	while (++count < ac)
+	{
+		data = init_data(data);
+		check_file(&data, av, count);
+		parsing_champ(&data, 0, NULL);
+		if (close(data.fd) == -1)
+			asm_error("fail close error", 2, &data, NULL);
+		do_cor(&data, av[count]);
+		ft_putstr_fd(GREEN, 1);
+		ft_putstr_fd(data.file_cor, 1);
+		ft_putstr_fd(" has been created !\n", 1);
+		ft_putstr_fd(RESET, 1);
+		delete_data(data);
+	}
 	return (0);
 }
